@@ -90,7 +90,7 @@ async function loadImage(src: string, ctx: CanvasRenderingContext2D, x: number, 
 
 function renderImage(params: ImageComponentParams, context: CanvasComponentContext, parentLayout: ParentLayout) {
   const { ctx } = context
-  const { src, imageElement } = params
+  const { src, imageElement, style } = params
   const dimensions = getDimensions(params, parentLayout)
   const coordinates = getCoordinates(params, parentLayout)
 
@@ -101,6 +101,12 @@ function renderImage(params: ImageComponentParams, context: CanvasComponentConte
   if (cachedImage) {
     drawImageFromCache(ctx, cachedImage, coordinates.x, coordinates.y, dimensions.width, dimensions.height)
     return null
+  }
+
+  if (style.borderColor) {
+    ctx.strokeStyle = style.borderColor
+    ctx.lineWidth = 2
+    ctx.strokeRect(coordinates.x, coordinates.y, dimensions.width, dimensions.height)
   }
 
   loadImage(

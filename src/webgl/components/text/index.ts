@@ -121,7 +121,7 @@ export default function TextComponent(params: TextParams, parentLayout: ParentLa
 
   return {
     type: 'Text',
-    render: (context: CanvasComponentContext) => renderText(params, context, parentLayout),
+    render: renderText.bind(this, params),
     clear: clearText,
     instructions: {
       relative: style?.position !== 'absolute',

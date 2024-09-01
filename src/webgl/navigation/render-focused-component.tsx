@@ -1,57 +1,48 @@
-import { ComponentType, useContext } from 'react'
-import { FocusContext, FocusContextMapper } from './focus-context'
+import { useContext, useEffect } from 'react'
+import { FocusContext, FocusContextMapper, getComponentDisplayName } from './focus-context'
+import { FocusPath } from './types'
 
-export type ExtraComponentProps = {
-  focused: boolean | void
-  setFocus: (key: string) => void
-  data: any
-  idx: number
-  carouselPosition: number
-}
+type RequiredProps = FocusPath
 
-type RenderFocusedComponentProps = {
-  CustomComponent: ComponentType<any>
-  focusKey: string
-  data: any
-  idx: number
-  carouselPosition: number
-}
+function renderFocusedElement<Props extends RequiredProps, InjectedProps>(
+  WrappedComponent: React.ComponentType<Props>
+): React.FC<Props & InjectedProps> {
+  const FocusedElement: React.FC<Props & InjectedProps> = (props) => {
+    const focusContext = useContext(FocusContext)
+    const { currentFocusPath, setFocus } = focusContext as { currentFocusPath: FocusPath, setFocus: Function }
+    const focusPath = props
 
-const RenderFocusedComponent: React.FC<RenderFocusedComponentProps> = ({
-  CustomComponent,
-  focusKey,
-  data,
-  idx,
-  carouselPosition,
-}) => {
-  const { currentFocusPath, setFocus } = useContext(FocusContext)
+    const getCurrentIndex = () => {
+      return FocusContextMapper.findIndex((path) => path.focusKey === focusPath.focusKey)
+    }
 
-  const contextValue = {
-    currentFocusPath: focusKey,
-    setFocus: setFocus,
-  }
+    useEffect(() => {
+      if (!FocusContextMapper.some((path) => path.focusKey === focusPath.focusKey)) {
+        FocusContextMapper.push(focusPath)
+      }
 
-  const renderWithFocusPath = () => {
-    FocusContextMapper.push(focusKey)
+      return () => {
+        const index = getCurrentIndex()
+        if (index !== -1) {
+          FocusContextMapper.splice(index, 1)
+        }
+      }
+    }, [focusPath])
 
     return (
-      <FocusContext.Provider value={contextValue}>
-        <CustomComponent
-          focused={currentFocusPath === focusKey}
-          setFocus={setFocus}
-          data={data}
-          idx={idx}
-          carouselPosition={carouselPosition}
+      <FocusContext.Provider value={focusPath}>
+        <WrappedComponent
+          {...props}
+          focused={currentFocusPath?.focusKey === focusPath.focusKey}
+          setFocus={setFocus.bind(null, focusPath)}
         />
       </FocusContext.Provider>
     )
   }
 
-  return (
-    <FocusContext.Consumer>
-      {renderWithFocusPath}
-    </FocusContext.Consumer>
-  )
+  FocusedElement.displayName = `FocusedElement(${getComponentDisplayName(WrappedComponent)})`
+
+  return FocusedElement
 }
 
-export default RenderFocusedComponent
+export default renderFocusedElement

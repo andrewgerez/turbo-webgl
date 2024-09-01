@@ -1,47 +1,65 @@
-import { ComponentType, useEffect, useMemo, useState } from 'react'
-import { FocusContext, FocusContextMapper } from './focus-context'
+import { useState, useEffect, useMemo } from 'react'
+import { FocusContext, FocusContextMapper, getComponentDisplayName } from './focus-context'
+import { FocusPath } from './types'
+import { NavigationDirectionEvent, NavigationResponsibility } from '../values/enums'
+import { getDirectionResponsibility, getEventBasedDirection } from './navigation-helper'
 
-const RenderNavigableComponent = (CustomComponent: ComponentType): JSX.Element => {
-  const [currentFocusKey, setCurrentFocusKey] = useState("card_0")
+type RequiredProps = {}
 
-  const contextValue = useMemo(() => ({
-    currentFocusPath: currentFocusKey,
-    setFocus: (key: string) => setCurrentFocusKey(key),
-  }), [currentFocusKey])
+function renderParentWithNavigationPath<Props extends RequiredProps, InjectedProps>(
+  WrappedComponent: React.ComponentType<Props>
+): React.ComponentType<Props & InjectedProps> {
+  const WithNavigation: React.FC<Props & InjectedProps> = (props) => {
+    const [currentFocusPath, setCurrentFocusPath] = useState<FocusPath | undefined>(undefined);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'ArrowLeft') {
-      const idx = FocusContextMapper.indexOf(currentFocusKey)
-      const next = idx - 1
-      if (next >= 0) {
-        const nextFocusKey = FocusContextMapper[next]
-        console.log('nextFocusKey', nextFocusKey)
-        setCurrentFocusKey(nextFocusKey)
+    const getNextFocusPath = (prevFocusPath: FocusPath | undefined, e: KeyboardEvent) => {
+      const currentIndex = FocusContextMapper.findIndex((item) => item.focusKey === prevFocusPath?.focusKey);
+      let nextIndex = currentIndex;
+
+      const currentDirection = getEventBasedDirection(e.key as NavigationDirectionEvent);
+      const directionResponsibility = getDirectionResponsibility(currentDirection);
+
+      if (directionResponsibility === NavigationResponsibility.SUBTRACT) {
+        nextIndex = currentIndex > 0 ? currentIndex - 1 : FocusContextMapper.length - 1;
+      } else if (directionResponsibility === NavigationResponsibility.ADD) {
+        nextIndex = currentIndex < FocusContextMapper.length - 1 ? currentIndex + 1 : 0;
       }
-    } else if (e.key === 'ArrowRight') {
-      const idx = FocusContextMapper.indexOf(currentFocusKey)
-      const next = idx + 1
-      if (next < FocusContextMapper.length) {
-        const nextFocusKey = FocusContextMapper[next]
-        console.log('nextFocusKey', nextFocusKey)
-        setCurrentFocusKey(nextFocusKey)
-      }
-    }
+
+      const nextFocusPath = FocusContextMapper[nextIndex] || FocusContextMapper[0];
+
+      return nextFocusPath;
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      setCurrentFocusPath((prevFocusPath) => getNextFocusPath(prevFocusPath, e));
+    };
+
+    useEffect(() => {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }, []);
+
+
+    const memoizedReturn = useMemo(() => ({
+      currentFocusPath,
+      setFocus: setCurrentFocusPath
+    }), [currentFocusPath])
+
+
+    return (
+      <FocusContext.Provider
+        value={memoizedReturn}
+      >
+        <WrappedComponent {...props} />
+      </FocusContext.Provider>
+    )
   }
 
-  useEffect(() => {
-    window.addEventListener('keydown', (e) => handleKeyDown(e))
+  WithNavigation.displayName = `ParentWithNavigationPath(${getComponentDisplayName(WrappedComponent)})`
 
-    return () => {
-      window.removeEventListener('keydown', (e) => handleKeyDown(e))
-    }
-  }, [])
-
-  return (
-    <FocusContext.Provider value={contextValue}>
-      <CustomComponent />
-    </FocusContext.Provider>
-  )
+  return WithNavigation
 }
 
-export default RenderNavigableComponent
+export default renderParentWithNavigationPath

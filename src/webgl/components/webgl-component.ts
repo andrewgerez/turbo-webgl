@@ -80,25 +80,20 @@ export const webglComponent = {
     nextStyle: any,
   ) {
     let styleUpdates: any = null
-    let styleName
 
-    for (styleName in lastStyle) {
-      if (lastStyle.hasOwn(styleName)) {
-        if (!nextStyle?.hasOwn(styleName)) {
-          styleUpdates = styleUpdates || {}
-          styleUpdates[styleName] = ''
-        }
-      }
-    }
-    for (styleName in nextStyle) {
-      if (
-        nextStyle.hasOwn(styleName) &&
-        lastStyle[styleName] !== nextStyle[styleName]
-      ) {
+    Object.keys(lastStyle).forEach((styleName) => {
+      if (lastStyle[styleName] !== nextStyle[styleName]) {
         styleUpdates = styleUpdates || {}
         styleUpdates[styleName] = nextStyle[styleName]
       }
-    }
+    })
+
+    Object.keys(nextStyle).forEach((styleName) => {
+      if (!(styleName in lastStyle)) {
+        styleUpdates = styleUpdates || {}
+        styleUpdates[styleName] = nextStyle[styleName]
+      }
+    })
 
     return styleUpdates
   },

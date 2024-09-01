@@ -11,8 +11,8 @@ import DimensionsService from './utils/dimensions'
 // @: Render
 // =============================================
 import WebGLRerender from './render/webgl-rerender'
-import RenderFocusedComponent from './navigation/render-focused-component'
-import RenderNavigableComponent from './navigation/render-navigable-component'
+import renderFocusedElement from './navigation/render-focused-component'
+import renderParentWithNavigationPath from './navigation/render-navigable-component'
 
 // @: Exports
 // =============================================
@@ -27,5 +27,5 @@ export const Text: React.ReactNode = 'Text'
 
 export const StyleSheet = StyleSheetService
 export const Dimensions = DimensionsService
-export const FocusedComponent = RenderFocusedComponent
-export const NavigableComponent = RenderNavigableComponent
+export const FocusedComponent = renderFocusedElement
+export const NavigableComponent = renderParentWithNavigationPath

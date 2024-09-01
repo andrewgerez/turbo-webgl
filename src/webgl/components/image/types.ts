@@ -8,6 +8,7 @@ export type ImageStyle = {
   left?: number;
   top?: number;
   overflow?: string;
+  borderColor?: string;
 }
 
 export type ImageComponentParams = {

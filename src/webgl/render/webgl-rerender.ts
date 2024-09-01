@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import ReactReconciler, { BundleType } from 'react-reconciler'
 import { webglComponent } from '../components/webgl-component'
 import { scaleDPI } from '../utils/scale-resize'
-import {renderElement, renderQueue} from './webgl-render'
+import { renderElement, renderQueue } from './webgl-render'
 import { precacheWebGLNode, updateWebGLProps } from './webgl-tree'
 import { WebGLParentInstance, WebGLChild, WebGLElement, CanvasComponentContext } from "@/webgl/types"
 import {
@@ -67,12 +67,12 @@ const CustomRerender = {
           ...parentInstance.getAndUpdateCurrentLayout(),
         }
       }
-      parentInstance.appendChild({...child, layout})
+      parentInstance.appendChild({ ...child, layout })
 
       child.getParentLayout = parentInstance.getLayoutDefinitions
     }
   },
-  
+
   appendChild(parentInstance: WebGLParentInstance, child: WebGLChild) {
     if (parentInstance.appendChild && child.type !== 'View') {
       parentInstance.appendChild(child)
@@ -153,7 +153,7 @@ const CustomRerender = {
 
         const webglElement = webglComponent.createElement(
           type,
-          {...newProps, children: newProps.children.join('')},
+          { ...newProps, children: newProps.children.join('') },
           context
         )
 
@@ -188,7 +188,7 @@ const CustomRerender = {
   getPublicInstance(inst: any) {
     return inst
   },
-  
+
   prepareForCommit() {
     return {}
   },
@@ -201,20 +201,20 @@ const CustomRerender = {
   supportsHydration: true,
   getCurrentEventPriority: () => 0,
   getInstanceFromNode: () => undefined,
-  getRootHostContext: () => {},
-  preparePortalMount: () => {},
-  beforeActiveInstanceBlur: () => {},
-  afterActiveInstanceBlur: () => {},
-  prepareScopeUpdate: () => {},
-  getInstanceFromScope: () => {},
-  detachDeletedInstance: () => {},
-  appendChildToContainer : () => {},
-  clearContainer: () => {},
+  getRootHostContext: () => { },
+  preparePortalMount: () => { },
+  beforeActiveInstanceBlur: () => { },
+  afterActiveInstanceBlur: () => { },
+  prepareScopeUpdate: () => { },
+  getInstanceFromScope: () => { },
+  detachDeletedInstance: () => { },
+  appendChildToContainer: () => { },
+  clearContainer: () => { },
 }
 
 const CustomReconciler = ReactReconciler(CustomRerender)
 
-CustomReconciler.injectIntoDevTools({...devToolsPreset})
+CustomReconciler.injectIntoDevTools({ ...devToolsPreset })
 
 const defaultContainer = {}
 const roots = typeof WeakMap === 'function' ? new WeakMap() : new Map()
@@ -229,7 +229,6 @@ const WebGLRerender = {
 
     let root = roots.get(containerKey)
     if (!root) {
-      // @ts-ignore
       root = CustomReconciler.createContainer(containerKey)
       roots.set(canvasDOMElement, root)
       context = null

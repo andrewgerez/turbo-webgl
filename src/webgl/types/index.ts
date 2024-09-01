@@ -22,18 +22,18 @@ export type SpatialGeometry = {
 }
 
 export type CanvasComponentContext = {
-  renderQueue: Array<WebGLElement<any, any>>;
+  renderQueue: Array<WebGLElement>;
   type: 'canvas';
   ctx: CustomCanvasRenderingContext2D;
   getSurfaceHeight(): number;
   setSurfaceHeight(height: number): void;
 }
 
-export type WebGLElement<TContext, TLayout> = {
-  render(context: TContext, layout: TLayout): void;
-  clear(oldParams: any, parentLayout: TLayout, context: CanvasComponentContext): void;
-  parentLayout: TLayout;
-  getParentLayout(): TLayout;
+export type WebGLElement = {
+  render(context: CanvasComponentContext, layout: WebGLLayout): void;
+  clear(oldParams: any, parentLayout: WebGLLayout, context: CanvasComponentContext): void;
+  parentLayout: WebGLLayout;
+  getParentLayout(): WebGLLayout;
 }
 
 export type WebGLLayout = {
@@ -55,11 +55,12 @@ export type WebGLParentInstance = {
   render(context: CanvasRenderingContext2D): void;
 }
 
-export interface WebGLChild {
-  type: string
+export type WebGLChild = {
+  type: string;
   instructions?: {
-    relative: boolean
-  }
-  getParentLayout?: () => WebGLLayout
-  clear(context: CanvasRenderingContext2D, layoutDefinitions: WebGLLayout): void
+    relative: boolean;
+  };
+  getParentLayout?: () => WebGLLayout;
+  clear(context: CanvasRenderingContext2D, layoutDefinitions: WebGLLayout): void;
 }
+

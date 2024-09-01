@@ -3,7 +3,7 @@ body {
   overflow: hidden;
 }
 
-canvas {
+#canvas-root {
   width: 1920px;
   height: 1280px;
   position: absolute;
