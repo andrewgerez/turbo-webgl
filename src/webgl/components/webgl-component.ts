@@ -23,7 +23,7 @@ export const webglComponent = {
     const COMPONENTS = {
       ...customDict,
       Image: Image(params, params.parentLayout),
-      Text: Text(params, params.parentLayout),
+      Text: Text(params),
       View: new View(params),
     }
 
