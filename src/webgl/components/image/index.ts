@@ -96,28 +96,31 @@ function renderImage(params: ImageComponentParams, context: CanvasComponentConte
 
   if (!src && !imageElement) return null
 
-  if (style.gradient) {
-    let gradient
+  let gradient: CanvasGradient | null = null
 
+  if (style.gradient) {
     if (style.gradient.type === 'linear') {
-      const startX = style.gradient.start?.x || 0
-      const startY = style.gradient.start?.y || 0
-      const endX = style.gradient.end?.x || dimensions.width
-      const endY = style.gradient.end?.y || dimensions.height
+      const startX = style.gradient.start?.x ?? 0
+      const startY = style.gradient.start?.y ?? 0
+      const endX = style.gradient.end?.x ?? dimensions.width
+      const endY = style.gradient.end?.y ?? dimensions.height
       gradient = ctx.createLinearGradient(startX, startY, endX, endY)
     } else if (style.gradient.type === 'radial') {
-      const startX = style.gradient.start?.x || dimensions.width / 2
-      const startY = style.gradient.start?.y || dimensions.height / 2
-      const endX = style.gradient.end?.x || dimensions.width / 2
-      const endY = style.gradient.end?.y || dimensions.height / 2
+      const startX = style.gradient.start?.x ?? dimensions.width / 2
+      const startY = style.gradient.start?.y ?? dimensions.height / 2
+      const endX = style.gradient.end?.x ?? dimensions.width / 2
+      const endY = style.gradient.end?.y ?? dimensions.height / 2
       gradient = ctx.createRadialGradient(startX, startY, 0, endX, endY, Math.max(dimensions.width, dimensions.height) / 2)
     }
 
     style.gradient.colors.forEach(colorStop => {
-      gradient.addColorStop(colorStop.offset, colorStop.color)
+      gradient?.addColorStop(colorStop.offset, colorStop.color)
     })
 
-    ctx.fillStyle = gradient
+    if (gradient) {
+      ctx.fillStyle = gradient
+    }
+
     ctx.fillRect(coordinates.x, coordinates.y, dimensions.width, dimensions.height)
   }
 
