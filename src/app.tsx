@@ -1,4 +1,4 @@
-import './App.css'
+import './app.css'
 import WebGLElement from './components/webgl-component'
 
 function App() {
