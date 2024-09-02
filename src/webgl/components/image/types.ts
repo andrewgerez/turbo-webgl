@@ -9,6 +9,12 @@ export type ImageStyle = {
   top?: number;
   overflow?: string;
   borderColor?: string;
+  gradient?: {
+    type: 'linear' | 'radial';
+    colors: { offset: number; color: string }[];
+    start?: { x: number; y: number };
+    end?: { x: number; y: number };
+  };
 }
 
 export type ImageComponentParams = {

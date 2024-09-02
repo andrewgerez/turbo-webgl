@@ -6,12 +6,14 @@ import {
   NavigableComponent,
 } from '@/webgl'
 import Sidebar from './sidebar'
+import Hero from './hero'
 
 const WebGLComponent = () => {
   return (
     <View>
+      <Hero />
       <Sidebar />
-      {Array.from({ length: 2 }).map((_, index) => (
+      {Array.from({ length: 1 }).map((_, index) => (
         <Carousel key={uuidv4()} index={index} />
       ))}
     </View>

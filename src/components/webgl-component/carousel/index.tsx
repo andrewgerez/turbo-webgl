@@ -23,7 +23,7 @@ const ContentComponent = ({ focused, image, index, carouselPosition }: any) => {
     <Image
       style={{
         left: 310 + 220 * index + 30,
-        top: carouselPosition === 1 ? 130 : 130 * carouselPosition + 290,
+        top: carouselPosition === 1 ? 640 : 640 * carouselPosition + 290,
         width: 200,
         height: 300,
         borderColor: focused ? 'orangered' : 'transparent'
@@ -37,11 +37,11 @@ const FocusableItem = FocusedComponent(ContentComponent)
 
 const Carousel = ({ index }: CarouselParams) => {
   const currentPosition = index + 1
-  const carouselTopPosition = currentPosition === 1 ? 80 : 130 * currentPosition + 240
+  const carouselTopPosition = currentPosition === 1 ? 580 : 630 * currentPosition + 240
 
   return (
     <View style={{ ...styles.carousel, top: carouselTopPosition, left: 300 }}>
-      <Text style={{ ...styles.title, top: carouselTopPosition + 7, left: 330, align: 'start' }}>Carousel</Text>
+      <Text style={{ ...styles.title, top: carouselTopPosition + 7, left: 330, align: 'start' }}>Most Watched Carousel</Text>
       {contents.map((data, idx) => (
         <FocusableItem
           key={`item-${data.name}-${currentPosition}-${idx}`}
