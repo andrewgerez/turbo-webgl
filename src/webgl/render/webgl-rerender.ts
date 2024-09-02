@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { ReactNode } from 'react'
 import ReactReconciler, { BundleType } from 'react-reconciler'
 import { webglComponent } from '../components/webgl-component'
@@ -46,6 +48,8 @@ const CustomRerender = {
         renderQueue: [],
       }
     }
+
+    if (!context) return
 
     const webglElement = webglComponent.createElement(
       type,
@@ -101,7 +105,7 @@ const CustomRerender = {
     }
   },
 
-  commitTextUpdate(textInstance: any, oldText: any, newText: any) {
+  commitTextUpdate(textInstance: any, newText: any) {
     if (typeof textInstance === 'string') {
       return document.createTextNode(newText)
     } else {

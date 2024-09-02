@@ -1,9 +1,9 @@
-function create(styles) {
+function create(styles: any) {
   if (!styles) {
     return {}
   }
 
-  const processedStyles = {}
+  const processedStyles: { [key: string]: any } = {}
 
   Object.keys(styles).forEach((styleKey) => {
     let style = styles[styleKey]
@@ -16,7 +16,7 @@ function create(styles) {
       borderStyle = style.borderStyle || []
 
     if (style.border) {
-      let border = [],
+      let border: any = [],
         borderString = style.border
 
       border = border.concat(style.border.match(/[0-9]*\.?[0-9]px?/i))

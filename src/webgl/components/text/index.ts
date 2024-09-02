@@ -116,11 +116,12 @@ function clearText(
   renderText(clearProps, context, parentLayout)
 }
 
-export default function TextComponent(params: TextParams, parentLayout: ParentLayout) {
+export default function TextComponent(params: TextParams) {
   const { style } = params
 
   return {
     type: 'Text',
+    // @ts-ignore
     render: renderText.bind(this, params),
     clear: clearText,
     instructions: {

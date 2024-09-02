@@ -96,12 +96,15 @@ function renderImage(params: ImageComponentParams, context: CanvasComponentConte
 
   if (!src && !imageElement) return null
 
-  ctx.clearRect(coordinates.x - 2, coordinates.y - 2, dimensions.width + 4, dimensions.height + 4)
 
-  if (style.borderColor && style.borderColor !== 'transparent') {
-    ctx.strokeStyle = style.borderColor
-    ctx.lineWidth = 4
-    ctx.strokeRect(coordinates.x, coordinates.y, dimensions.width, dimensions.height)
+  if (style.borderColor) {
+    if (style.borderColor === 'transparent') {
+      ctx.clearRect(coordinates.x - 2, coordinates.y - 2, dimensions.width + 4, dimensions.height + 4)
+    } else {
+      ctx.strokeStyle = style.borderColor
+      ctx.lineWidth = 4
+      ctx.strokeRect(coordinates.x, coordinates.y, dimensions.width, dimensions.height)
+    }
   }
 
   const cachedImage = cache.get(src)

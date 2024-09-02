@@ -10,7 +10,6 @@ function setTimeoutCallback() {
 
 export const scheduleReconcilerTimeout = (
   callback: (...args: unknown[]) => unknown,
-  delay?: number,
 ) => {
   scheduledCallback = callback
   const timeoutId = setTimeout(setTimeoutCallback, 1)
@@ -18,7 +17,7 @@ export const scheduleReconcilerTimeout = (
 }
 
 export const cancelReconcilerTimeout = (
-  timeoutId: NodeJS.Timeout,
+  timeoutId: number,
 ) => {
   scheduledCallback = null
   clearTimeout(timeoutId)
