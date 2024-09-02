@@ -13,8 +13,6 @@ export const contents = [
   { name: 'Interstellar', src: InterstellarImage },
   { name: 'HotWheels', src: HotWheelsImage },
   { name: 'The Umbrella Academy', src: TheUmbrellaAcademyImage },
-  // { name: 'Dark', src: DarkImage },
-  // { name: 'Blade Runner', src: BladeRunnerImage },
-  // { name: 'Interstellar', src: InterstellarImage },
-  // { name: 'HotWheels', src: HotWheelsImage },
+  { name: 'Dark', src: DarkImage },
+  { name: 'Blade Runner', src: BladeRunnerImage },
 ]

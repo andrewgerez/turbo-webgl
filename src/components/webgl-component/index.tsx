@@ -1,26 +1,19 @@
 import Carousel from '@/components/webgl-component/carousel'
 import { v4 as uuidv4 } from 'uuid'
-import { HeaderStyle, LogoContainerStyle, LogoStyle, TitleContainerStyle, TitleStyle } from '@/components/webgl-component/types'
 import {
   customWebGLRender,
-  Dimensions,
   View,
-  Image,
-  Text,
-  StyleSheet,
   NavigableComponent,
 } from '@/webgl'
 import Sidebar from './sidebar'
 
-const { width } = Dimensions.get('window') as { width: number; height: number }
-
 const WebGLComponent = () => {
   return (
     <View>
-      {/* {Array.from({ length: 2 }).map((_, idx) => (
-        <Carousel key={uuidv4()} index={idx} />
-      ))} */}
       <Sidebar />
+      {Array.from({ length: 2 }).map((_, index) => (
+        <Carousel key={uuidv4()} index={index} />
+      ))}
     </View>
   )
 }
