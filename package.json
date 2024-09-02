@@ -13,7 +13,8 @@
     "@types/node": "^22.5.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-reconciler": "^0.29.2"
+    "react-reconciler": "^0.29.2",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
