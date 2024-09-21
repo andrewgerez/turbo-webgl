@@ -50,6 +50,7 @@ const Carousel = ({ index }: CarouselParams) => {
           image={data.src}
           index={idx}
           carouselPosition={currentPosition}
+          shouldRedirectToThePlayer={true}
         />
       ))}
     </View>

@@ -5,7 +5,8 @@ import { FocusPath } from './types'
 type RequiredProps = FocusPath
 
 function renderFocusedElement<Props extends RequiredProps, InjectedProps>(
-  WrappedComponent: React.ComponentType<Props>
+  WrappedComponent: React.ComponentType<Props>,
+  shouldRedirectToThePlayer: boolean
 ): React.FC<Props & InjectedProps> {
   const FocusedElement: React.FC<Props & InjectedProps> = (props) => {
     const focusContext = useContext(FocusContext)
@@ -28,6 +29,21 @@ function renderFocusedElement<Props extends RequiredProps, InjectedProps>(
         }
       }
     }, [focusPath])
+
+    useEffect(() => {
+      function onEnterPress(e: KeyboardEvent) {
+        // TO-DO: improve this logic, it is just a flow test
+        if (e.key === 'Enter' && !currentFocusPath.focusKey.includes('sidebar')) {
+          window.location.href = '/player'
+        }
+      }
+
+      window.addEventListener('keydown', onEnterPress)
+
+      return () => {
+        window.removeEventListener('keydown', onEnterPress)
+      }
+    }, [])
 
     return (
       <FocusContext.Provider value={focusPath}>
