@@ -1,6 +1,6 @@
 import { View, Image, Text, StyleSheet, Dimensions, FocusedComponent } from '@/webgl'
-import { contents } from '@/components/home-webgl/utils'
-import { CarouselParams, CarouselStyle, TitleCarouselStyle } from '@/components/home-webgl/carousel/types'
+import { contents } from '@/components/webgl-home/utils'
+import { CarouselParams, CarouselStyle, TitleCarouselStyle } from '@/components/webgl-home/_components/carousel/types'
 import { NavigationOrientation } from '@/webgl/values/enums'
 
 const { width } = Dimensions.get('window') as { width: number; height: number }

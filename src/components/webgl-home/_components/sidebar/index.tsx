@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FocusedComponent
 } from '@/webgl'
-import { LogoImage } from '@/components/home-webgl/utils'
+import { LogoImage } from '@/components/webgl-home/utils'
 import { SidebarItemParams } from './types'
 import { NavigationOrientation } from '@/webgl/values/enums'
 
