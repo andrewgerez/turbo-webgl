@@ -23,7 +23,7 @@ export function getDirectionResponsibility(direction: NavigationDirection): Navi
  * @param directionEvent - The keyboard event for navigation.
  * @returns The corresponding navigation direction.
  */
-export function getEventBasedDirection(directionEvent: NavigationDirectionEvent): NavigationDirection {
+export function getEventBasedDirection(directionEvent: NavigationDirectionEvent): NavigationDirection | null {
   const directionMap: Record<NavigationDirectionEvent, NavigationDirection> = {
     [NavigationDirectionEvent.LEFT]: NavigationDirection.LEFT,
     [NavigationDirectionEvent.RIGHT]: NavigationDirection.RIGHT,
@@ -32,9 +32,8 @@ export function getEventBasedDirection(directionEvent: NavigationDirectionEvent)
   };
 
   const direction = directionMap[directionEvent];
-  if (!direction) {
-    throw new Error(`Unknown direction event: ${directionEvent}`);
-  }
+
+  if (!direction) return null
 
   return direction;
 }

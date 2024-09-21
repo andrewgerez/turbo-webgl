@@ -17,6 +17,9 @@ function renderParentWithNavigationPath<Props extends RequiredProps, InjectedPro
       let nextIndex = currentIndex;
 
       const currentDirection = getEventBasedDirection(e.key as NavigationDirectionEvent);
+
+      if (!currentDirection) return prevFocusPath
+
       const directionResponsibility = getDirectionResponsibility(currentDirection);
 
       if (directionResponsibility === NavigationResponsibility.SUBTRACT) {
