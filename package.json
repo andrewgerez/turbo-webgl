@@ -14,6 +14,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-reconciler": "^0.29.2",
+    "react-router-dom": "^6.26.2",
+    "turbo-webgl": "file:",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

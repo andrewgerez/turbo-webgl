@@ -1,12 +1,12 @@
-import Carousel from '@/components/webgl-component/carousel'
 import { v4 as uuidv4 } from 'uuid'
 import {
   customWebGLRender,
   View,
   NavigableComponent,
 } from '@/webgl'
-import Sidebar from './sidebar'
-import Hero from './hero'
+import Sidebar from './_components/sidebar'
+import Hero from './_components/hero'
+import Carousel from './_components/carousel'
 
 const WebGLComponent = () => {
   return (
@@ -22,7 +22,7 @@ const WebGLComponent = () => {
 
 const RenderNavigableWebGLComponent = NavigableComponent(WebGLComponent)
 
-function WebGLElement(): JSX.Element | null {
+function WebGLHome(): JSX.Element | null {
   const canvasRoot = document.getElementById('canvas-root')
 
   if (!(canvasRoot instanceof HTMLCanvasElement)) {
@@ -32,4 +32,4 @@ function WebGLElement(): JSX.Element | null {
   return customWebGLRender(<RenderNavigableWebGLComponent />, canvasRoot)
 }
 
-export default WebGLElement
+export default WebGLHome

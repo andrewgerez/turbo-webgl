@@ -1,5 +1,5 @@
 import { View, Image } from "@/webgl"
-import { HeroBannerImage } from "../utils"
+import { HeroBannerImage } from "../../utils"
 
 function Hero() {
   return (

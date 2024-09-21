@@ -1,5 +1,5 @@
 import { View, Image, Text } from '@/webgl'
-import { ContentType } from '@/components/webgl-component/types'
+import { ContentType } from '@/components/home-webgl/types'
 
 const ContentCard = (data: ContentType, idx: number) => {
   return (
